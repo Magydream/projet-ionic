@@ -12,7 +12,7 @@ export class PhotoService {
     // Supprime la photo dans le tableau
     this.photos.splice(position, 1);
 
-    // met a jour le tableau en écrasant le tab de photos existant
+    // met à jour le tableau en écrasant le tab de photos existant
     await Storage.set({
       key: this.PHOTO_STORAGE,
       value: JSON.stringify(this.photos)
@@ -47,7 +47,7 @@ export class PhotoService {
     this.photos.unshift(savedImageFile);
     //ajoute la photo capturée au début du tableau
     this.photos.unshift({
-      filepath: "soon...",
+      filepath: '',
       webviewPath: capturedPhoto.webPath
     });
     //enregistre dans le tableau photos, chaque photo est stocké

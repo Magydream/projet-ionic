@@ -16,10 +16,15 @@ const routes: Routes = [
         loadChildren: () => import('../gallery/gallery.module').then(m => m.Tab2PageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'film',
+        loadChildren: () => import('../films/film.module').then(m => m.Tab3PageModule)
       },
     ]
+  },
+  {
+    path:'tabs/film/:id',
+    loadChildren:()=> import('../filminfo/filminfo.module').then(m => m.FilminfoPageModule)
+
   }
 ];
 
