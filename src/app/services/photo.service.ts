@@ -8,6 +8,25 @@ import { Capacitor } from '@capacitor/core';
   providedIn: 'root'
 })
 export class PhotoService {
+  public async deletePicture(photo: UserPhoto, position: number) {
+    // Supprime la photo dans le tableau
+    this.photos.splice(position, 1);
+
+    // met a jour le tableau en écrasant le tab de photos existant
+    await Storage.set({
+      key: this.PHOTO_STORAGE,
+      value: JSON.stringify(this.photos)
+    });
+
+    // supprime la photo depuis filesystem
+    const filename = photo.filepath
+      .substr(photo.filepath.lastIndexOf('/') + 1);
+
+    await Filesystem.deleteFile({
+      path: filename,
+      directory: Directory.Data
+    });
+  }
   //tableau de photos qui contiendra la ref de toutes les photos prise
   public photos: UserPhoto[] = [];
   private PHOTO_STORAGE: string = 'photos';
@@ -41,8 +60,9 @@ export class PhotoService {
     // Récupérer les données des photos avec la clé et on récupère le tableau de photo au format JSON
     const photoList = await Storage.get({ key: this.PHOTO_STORAGE });
     this.photos = JSON.parse(photoList.value) || [];
-    // Affiche la photo en la lisant au format base64
-    for (let photo of this.photos) {
+    //Losque l'app n'est pas hybrid
+    if (!this.platform.is('hybrid')){
+    for (const photo of this.photos) {
       // lie les données de toutes les photos enregistrée avec Filesystem
       const readFile = await Filesystem.readFile({
         path: photo.filepath,
@@ -51,6 +71,8 @@ export class PhotoService {
       //charge la photo en base64
       photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
     }
+    }
+    // Affiche la photo en la lisant au format base64
   }
   private async savePicture(photo: Photo) {
     // Converti la photo au format base64 afin de l'enregistrer
