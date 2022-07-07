@@ -5,7 +5,7 @@ import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOu
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private auth:Auth) { }
+  constructor(private auth: Auth) { }
 
   async register({email,password}){
     try {

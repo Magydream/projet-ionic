@@ -36,7 +36,7 @@ get password(){
     const user = await this.authService.register(this.credentials.value);
     await loading.dismiss();
     if (user) {
-       await this.router.navigateByUrl('/tabs/home', {replaceUrl: true});
+       await this.router.navigateByUrl('tabs', {replaceUrl: false});
     }else{
          await this.showAlert('Enregistrement impossible', 'Réessayer!');
       }
@@ -48,7 +48,7 @@ get password(){
     const user = await this.authService.login(this.credentials.value);
     await loading.dismiss();
     if (user) {
-      await this.router.navigateByUrl('/tabs/home', {replaceUrl: true});
+      await this.router.navigateByUrl('tabs', {replaceUrl: true});
     }else{
       await this.showAlert('Email ou mot de passe incorrect', 'Réessayer!');
     }
